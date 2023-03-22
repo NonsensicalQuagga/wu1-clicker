@@ -6,7 +6,7 @@
  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const
  * https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector
  * Viktigt: queryselector ger oss ett html element eller flera om det finns.
- */
+ */ 
 const clickerButton = document.querySelector('#game-button');
 const moneyTracker = document.querySelector('#money');
 const mpsTracker = document.querySelector('#mps'); // money per second
@@ -15,6 +15,7 @@ const upgradesTracker = document.querySelector('#upgrades');
 const upgradeList = document.querySelector('#upgradelist');
 const msgbox = document.querySelector('#msgbox');
 const audioAchievement = document.querySelector('#swoosh');
+const soulsTracker = document.querySelector("#souls");
 
 /* Följande variabler använder vi för att hålla reda på hur mycket pengar som
  * spelaren, har och tjänar.
@@ -30,6 +31,7 @@ let acquiredUpgrades = 0;
 let last = 0;
 let numberOfClicks = 0; // hur många gånger har spelare eg. klickat
 let active = false; // exempel för att visa att du kan lägga till klass för att indikera att spelare får valuta
+let souls = 0;
 
 // likt upgrades skapas här en array med objekt som innehåller olika former
 // av achievements.
@@ -72,7 +74,7 @@ clickerButton.addEventListener(
     'click',
     () => {
         // vid click öka score med moneyPerClick
-        money += moneyPerClick;
+        money += (moneyPerClick * (1+souls/100));
         // håll koll på hur många gånger spelaren klickat
         numberOfClicks += 1;
         // console.log(clicker.score);
@@ -90,13 +92,14 @@ clickerButton.addEventListener(
  * Sist i funktionen så kallar den på sig själv igen för att fortsätta uppdatera.
  */
 function step(timestamp) {
-    moneyTracker.textContent = Math.round(money);
-    mpsTracker.textContent = moneyPerSecond;
-    mpcTracker.textContent = moneyPerClick;
+    moneyTracker.textContent = money;
+    mpsTracker.textContent = (moneyPerSecond * (1+souls/100));
+    mpcTracker.textContent = (moneyPerClick * (1+souls/100));
     upgradesTracker.textContent = acquiredUpgrades;
+    soulsTracker.textContent = souls;
 
     if (timestamp >= last + 1000) {
-        money += moneyPerSecond;
+        money += (moneyPerSecond * (1+souls/100));
         last = timestamp;
     }
 
@@ -135,6 +138,31 @@ function step(timestamp) {
 
     window.requestAnimationFrame(step);
 }
+function drawUpgrades() {
+    upgradeList.innerHTML = '';
+    upgrades.forEach((upgrade) => {
+        upgradeList.appendChild(createCard(upgrade));
+    });
+}
+
+
+function rebirth(modifier) {
+    souls += (1 + Math.floor(money/1000000))
+    money = 0;
+    moneyPerClick = 1;
+    moneyPerSecond = 0;
+    last = 0;
+    numberOfClicks = 0;
+    active = false;
+    upgrades = upgrades.map((upgrade) => {
+        upgrade.acquired = false;
+        if (upgrade.timesUppgraded != 0){
+        upgrade.cost = Math.round(upgrade.cost / (upgrade.costMultiplyer ** upgrade.timesUppgraded));  
+        upgrade.timesUppgraded = 0;}
+        return upgrade;
+    });
+    drawUpgrades();
+}
 
 /* Här använder vi en listener igen. Den här gången så lyssnar iv efter window
  * objeket och när det har laddat färdigt webbsidan(omvandlat html till dom)
@@ -148,9 +176,7 @@ function step(timestamp) {
  * Efter det så kallas requestAnimationFrame och spelet är igång.
  */
 window.addEventListener('load', (event) => {
-    upgrades.forEach((upgrade) => {
-        upgradeList.appendChild(createCard(upgrade));
-    });
+    drawUpgrades();
     window.requestAnimationFrame(step);
 });
 
@@ -166,22 +192,83 @@ upgrades = [
         name: 'Sop',
         cost: 10,
         amount: 1,
+        costMultiplyer: 1.5,
+        timesUppgraded: 0,
+    },
+    {
+        name: "2xAmount",
+        cost: 10, 
+        amountMultiplyer: 2,
+        costMultiplyer: 100,
+        timesUppgraded: 0,
     },
     {
         name: 'Kvalitetsspade',
         cost: 50,
         clicks: 2,
+        costMultiplyer: 1.5,
+        timesUppgraded: 0,
     },
     {
         name: 'Skottkärra',
         cost: 100,
         amount: 10,
+        costMultiplyer: 1.5,
+        timesUppgraded: 0,
+    },
+    {
+        name: "2xClics",
+        cost: 100,
+        clickMultiplyer: 2,
+        costMultiplyer: 10,
+        timesUppgraded: 0,
     },
     {
         name: 'Grävmaskin',
         cost: 1000,
         amount: 100,
+        costMultiplyer: 1.5,
+        timesUppgraded: 0,
     },
+    {
+        name: "idk^2",
+        cost: 2000,
+        clicks: 50,
+        costMultiplyer: 1.75,
+        timesUppgraded: 0,
+    },
+    {
+        name: "idk",
+        cost: 50000,
+        amount: 10000,
+        costMultiplyer: 1.75,
+        timesUppgraded: 0,
+    },
+    {
+        name: "idk^3",
+        cost: 1000000,
+        amount: 200000,
+        costMultiplyer: 2,
+        timesUppgraded: 0,
+    },
+    {
+        name: "Rebirth",
+        cost: 1000000,
+        description: "e",
+        rebirth: 1,
+        costMultiplyer: 1,
+        timesUppgraded: 0,
+    },
+    {
+        name: "NaN boost",
+        cost: 10000000000,
+        clicks: 10000000,
+        amount: 100000000,
+        clickMultiplyer: 50,
+        amountMultiplyer: 50,
+        timesUppgraded: 0,
+        costMultiplyer: 10000000000,
+    }
 ];
 
 /* createCard är en funktion som tar ett upgrade objekt som parameter och skapar
@@ -208,10 +295,18 @@ function createCard(upgrade) {
     const header = document.createElement('p');
     header.classList.add('title');
     const cost = document.createElement('p');
-    if (upgrade.amount) {
+    if ( upgrade.name === "NaN boost"){
+        header.textContent = `${upgrade.name},  ???`;
+    } else if (upgrade.amount) {
         header.textContent = `${upgrade.name}, +${upgrade.amount} per sekund.`;
-    } else {
+    } else if (upgrade.clicks) {
         header.textContent = `${upgrade.name}, +${upgrade.clicks} per klick.`;
+    } else if (upgrade.clickMultiplyer) {
+        header.textContent = `${upgrade.name}, ${upgrade.clickMultiplyer} gånger klick`;
+    } else if (upgrade.amountMultiplyer) {
+        header.textContent = `${upgrade.name}, ${upgrade.amountMultiplyer} gånger amount`;
+    } else {
+        header.textContent = `${upgrade.name}, ${upgrade.description} `;
     }
     cost.textContent = `Köp för ${upgrade.cost} benbitar.`;
 
@@ -219,11 +314,17 @@ function createCard(upgrade) {
         if (money >= upgrade.cost) {
             acquiredUpgrades++;
             money -= upgrade.cost;
-            upgrade.cost *= 1.5;
+            upgrade.cost = Math.floor(upgrade.cost * upgrade.costMultiplyer)
             cost.textContent = 'Köp för ' + upgrade.cost + ' benbitar';
             moneyPerSecond += upgrade.amount ? upgrade.amount : 0;
+            moneyPerSecond *= upgrade.amountMultiplyer  ? upgrade.amountMultiplyer : 1;
             moneyPerClick += upgrade.clicks ? upgrade.clicks : 0;
+            moneyPerClick *= upgrade.clickMultiplyer ? upgrade.clickMultiplyer : 1;
+            upgrade.timesUppgraded ++;
             message('Grattis du har köpt en uppgradering!', 'success');
+            if (upgrade.rebirth === 1) {
+                rebirth(upgrade.rebirth);
+            }
         } else {
             message('Du har inte råd.', 'warning');
         }
