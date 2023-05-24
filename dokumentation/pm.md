@@ -24,7 +24,7 @@ Annars så behövde jag bara ändra några bilder och ord i html.
 
 ## Positiva erfarenheter
 
-Om jag hadde några problem så fanns det bra dokumentation på internet.
+Det var relativ etnkelt att jobba med java script och om jag hadde några problem så fanns det bra dokumentation på internet.
 
 ## Negativa erfarenheter
 
@@ -34,5 +34,5 @@ Detta betyder att jag inte kan göra något stort som kanske inte kommer stämma
 
 ## Sammanfattning
 
-Här redovisar du dina slutsatser, erfarenheter och lärdomar. Reflektera över din produkt och dess/dina utvecklingsmöjligheter.
-Vad kan vidareutvecklas och finns det utrymme att bygga vidare på projektet.
+
+Bestäm faktiskt tema i tid och om jag har några problem så fungerar internet väldigt bra. Om jag skulle göra mer så skulle jag förmodligen lägga till specialeffekter utöver bara dubbla x. Förmodligen också ändra lite på hur den ser ut. Annars så är jag nöjd med det jag har gjort.
