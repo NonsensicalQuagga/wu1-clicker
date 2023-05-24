@@ -189,63 +189,63 @@ window.addEventListener('load', (event) => {
  */
 upgrades = [
     {
-        name: 'Sop',
+        name: 'Bannana cat',
         cost: 10,
         amount: 1,
         costMultiplyer: 1.5,
         timesUppgraded: 0,
     },
     {
-        name: "2xAmount",
+        name: "Gooieduck",
         cost: 10, 
         amountMultiplyer: 2,
         costMultiplyer: 100,
         timesUppgraded: 0,
     },
     {
-        name: 'Kvalitetsspade',
+        name: 'Vanilla cat',
         cost: 50,
         clicks: 2,
         costMultiplyer: 1.5,
         timesUppgraded: 0,
     },
     {
-        name: 'Skottkärra',
+        name: 'Strawberry cat',
         cost: 100,
         amount: 10,
         costMultiplyer: 1.5,
         timesUppgraded: 0,
     },
     {
-        name: "2xClics",
+        name: "zzz",
         cost: 100,
         clickMultiplyer: 2,
         costMultiplyer: 10,
         timesUppgraded: 0,
     },
     {
-        name: 'Grävmaskin',
+        name: 'Orange cat',
         cost: 1000,
         amount: 100,
         costMultiplyer: 1.5,
         timesUppgraded: 0,
     },
     {
-        name: "idk^2",
+        name: "Kiwi cat",
         cost: 2000,
         clicks: 50,
         costMultiplyer: 1.75,
         timesUppgraded: 0,
     },
     {
-        name: "idk",
+        name: "Grape cat",
         cost: 50000,
         amount: 10000,
         costMultiplyer: 1.75,
         timesUppgraded: 0,
     },
     {
-        name: "idk^3",
+        name: "Cherry cat",
         cost: 1000000,
         amount: 200000,
         costMultiplyer: 2,
@@ -254,13 +254,13 @@ upgrades = [
     {
         name: "Rebirth",
         cost: 1000000,
-        description: "e",
+        description: "",
         rebirth: 1,
         costMultiplyer: 1,
         timesUppgraded: 0,
     },
     {
-        name: "NaN boost",
+        name: "Singularity Bomb",
         cost: 10000000000,
         clicks: 10000000,
         amount: 100000000,
@@ -295,27 +295,27 @@ function createCard(upgrade) {
     const header = document.createElement('p');
     header.classList.add('title');
     const cost = document.createElement('p');
-    if ( upgrade.name === "NaN boost"){
+    if ( upgrade.name === "Singularity Bomb"){
         header.textContent = `${upgrade.name},  ???`;
     } else if (upgrade.amount) {
-        header.textContent = `${upgrade.name}, +${upgrade.amount} per sekund.`;
+        header.textContent = `${upgrade.name}, +${upgrade.amount} mat per sekund.`;
     } else if (upgrade.clicks) {
-        header.textContent = `${upgrade.name}, +${upgrade.clicks} per klick.`;
+        header.textContent = `${upgrade.name}, +${upgrade.clicks} mat per klick.`;
     } else if (upgrade.clickMultiplyer) {
-        header.textContent = `${upgrade.name}, ${upgrade.clickMultiplyer} gånger klick`;
+        header.textContent = `${upgrade.name}, ${upgrade.clickMultiplyer} gånger mat per klick.`;
     } else if (upgrade.amountMultiplyer) {
-        header.textContent = `${upgrade.name}, ${upgrade.amountMultiplyer} gånger amount`;
+        header.textContent = `${upgrade.name}, ${upgrade.amountMultiplyer} gånger mat per sekund.`;
     } else {
         header.textContent = `${upgrade.name}, ${upgrade.description} `;
     }
-    cost.textContent = `Köp för ${upgrade.cost} benbitar.`;
+    cost.textContent = `Köp för ${upgrade.cost} Mat.`;
 
     card.addEventListener('click', (e) => {
         if (money >= upgrade.cost) {
             acquiredUpgrades++;
             money -= upgrade.cost;
             upgrade.cost = Math.floor(upgrade.cost * upgrade.costMultiplyer)
-            cost.textContent = 'Köp för ' + upgrade.cost + ' benbitar';
+            cost.textContent = 'Köp för ' + upgrade.cost + ' mat';
             moneyPerSecond += upgrade.amount ? upgrade.amount : 0;
             moneyPerSecond *= upgrade.amountMultiplyer  ? upgrade.amountMultiplyer : 1;
             moneyPerClick += upgrade.clicks ? upgrade.clicks : 0;

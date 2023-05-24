@@ -76,6 +76,7 @@ audio {
 }
 
 .hero > picture {
+
     place-self: center;
     grid-area: stack;
     width: 100%;
@@ -85,7 +86,6 @@ audio {
 .hero img {
     width: 100%;
     height: 100%;
-    aspect-ratio: 16/9;
     object-fit: cover;
 }
 
@@ -141,11 +141,11 @@ audio {
     width: var(--space-4xl-5xl);
     height: var(--space-4xl-5xl);
     font-size: var(--step-2);
-    background: url('../img/brett-meliti-RgkYMfFopIA-unsplash-removebg-preview.png');
+    background: url('../img/Slugwalk.gif');
     background-size: cover;
     background-position: center;
     border: 2px solid transparent;
-    color: var(--color-light);
+    color: black;
     text-transform: uppercase;
     font-weight: 700;
     cursor: pointer;
