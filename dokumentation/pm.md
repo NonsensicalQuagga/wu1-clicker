@@ -12,17 +12,15 @@ Från början så fick jag en mall av min lärare som var en fullt funktionerand
 
 Det som jag behövde lista ut var hur jag kan göra nya kort och ändra vad korten gör.
 
-Redovisa arbetets olika delar. Så att läsaren förstår vad du gjort och hur.
+För att skapa och ändra kort behövde jag ändra upgrades.
 
-Använd gärna bilder för att illustrera.
+![screenshot1](/img/screenshot1.jpg)
 
-För att lägga till bilder i markdown. Bilderna kan du ladda upp med Git som vanligt, länka dem med url eller filnamnet.
+För att ändra vad ett kort gjorde så behövde jag ändra vad som hände när jag klickade på kortet.
 
-```
-![GitHub Logo](/images/logo.png)
-Format: ![Alt Text](url)
-```
+![screenshot2](/img/screenshot2.jpg)
 
+Annars så behövde jag bara ändra några bilder och ord i html.
 
 ## Positiva erfarenheter
 
@@ -33,9 +31,6 @@ Om jag hadde några problem så fanns det bra dokumentation på internet.
 Jag hadde inte bestämt ett tema...
 
 Detta betyder att jag inte kan göra något stort som kanske inte kommer stämma in i temat. Jag borde åtminståne ha bestämt tema med 50% av lektionstiden kvar.
-
-
-
 
 ## Sammanfattning
 
