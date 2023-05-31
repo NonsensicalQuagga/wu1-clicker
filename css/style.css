@@ -59,6 +59,7 @@ audio {
     font-size: var(--step--1);
 }
 .hero {
+    background-color: black;
     display: grid;
     grid-template-areas: 'stack';
 }
@@ -76,7 +77,7 @@ audio {
 }
 
 .hero > picture {
-
+    
     place-self: center;
     grid-area: stack;
     width: 100%;
@@ -235,4 +236,12 @@ audio {
 
 .active {
     animation: flash 1s infinite;
+}
+a{
+    color: black;
+    text-emphasis-style: none;
+}
+
+a:hover{
+    color: red;
 }
